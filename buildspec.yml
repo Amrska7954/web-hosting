@@ -1,0 +1,10 @@
+version: 0.2
+
+phases:
+  build:
+    commands:
+      - ./run.sh
+
+artifacts:
+  files:
+    - run.sh
