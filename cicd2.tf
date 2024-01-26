@@ -1,9 +1,64 @@
-# Define the AWS provider
-# Define the S3 bucket for artifacts
-resource "aws_s3_bucket" "mys3-bucket19898973973" {
-  bucket = "example-pipeline-artifacts"
-  acl    = "private"
+provider "aws" {
+  alias   = "example"  # Give it a unique alias
+  profile = var.profile
+  region  = "us-east-1"
 }
+
+# Define the S3 bucket for artifacts
+
+# S3 bucket for site
+# S3 bucket for artifacts
+resource "aws_s3_bucket" "site_bucket" {
+  bucket = "myq-test-dev12347891abc"
+
+  website {
+    index_document = "index.html"
+    error_document = "error.html"
+  }
+}
+
+# resource "aws_s3_bucket_policy" "site_bucket_policy" {
+#   bucket = aws_s3_bucket.site_bucket.id
+
+#   policy = jsonencode({
+#     Version = "2012-10-17",
+#     Statement = [
+#       {
+#         Action    = "s3:GetObject",
+#         Effect    = "Allow",
+#         Resource  = "arn:aws:s3:::${aws_s3_bucket.site_bucket.id}/*",
+#         Principal = "*"
+#       },
+#       {
+#         Action    = "s3:PutObject",
+#         Effect    = "Allow",
+#         Resource  = "arn:aws:s3:::${aws_s3_bucket.site_bucket.id}/*",
+#         Principal = "*"
+#       }
+#     ]
+#   })
+# }
+
+
+
+
+# Policy for site bucket
+# resource "aws_s3_bucket_policy" "site_bucket_policy" {
+#   bucket = aws_s3_bucket.site_bucket.id
+
+#   policy = jsonencode({
+#     Version = "2012-10-17",
+#     Statement = [
+#       {
+#         Action    = "s3:GetObject",
+#         Effect    = "Allow",
+#         Resource  = "arn:aws:s3:::${aws_s3_bucket.site_bucket.id}/*",
+#         Principal = "*"
+#       }
+#     ]
+#   })
+# }
+
 
 # Define a CodeBuild project
 resource "aws_codebuild_project" "example" {
@@ -117,10 +172,10 @@ resource "aws_codepipeline" "example" {
   name     = "example-pipeline"
   role_arn = aws_iam_role.codepipeline.arn
 
-  artifact_store {
-    location = aws_s3_bucket.example.bucket
-    type     = "S3"
-  }
+ artifact_store {
+  location = var.aws_s3_bucket
+  type     = "S3"
+}
 
   stage {
     name = "Source"
