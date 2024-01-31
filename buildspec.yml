@@ -22,9 +22,10 @@ phases:
       # Any actions you want to perform after the build
 
 artifacts:
-  files:
-    - public/**/*  # Adjust this path to where your build outputs the static files
-  discard-paths: yes
+  files: '**/*'
+  name: my-artifact-name
+  s3_bucket: myq-test-dev12347891abc
+  s3_prefix: example-pipeline/source_out/
 
 cache:
   paths:
