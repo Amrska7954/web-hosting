@@ -1,10 +1,31 @@
 version: 0.2
 
 phases:
+  install:
+    commands:
+      - echo Installing source dependencies...
+      # Example: npm install, if you're using Node.js
+
+  pre_build:
+    commands:
+      - echo Pre-build phase...
+      # Example: Run any tests or linting
+
   build:
     commands:
-      - ./run.sh
+      - echo Build started on `date`
+      # Example: npm run build, if you have a build script
+
+  post_build:
+    commands:
+      - echo Post-build phase...
+      # Any actions you want to perform after the build
 
 artifacts:
   files:
-    - run.sh
+    - public/**/*  # Adjust this path to where your build outputs the static files
+  discard-paths: yes
+
+cache:
+  paths:
+    - 'node_modules/**/*'  # If using Node.js, for example
