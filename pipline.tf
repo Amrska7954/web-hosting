@@ -269,7 +269,7 @@ resource "aws_codepipeline" "example" {
       input_artifacts  = ["build_output"]
       version          = "1"
       configuration = {
-        BucketName = "var.aws_s3_bucket"
+        BucketName = "myq-test-dev12347891abc"
         Extract    = "true"
       }
     }
