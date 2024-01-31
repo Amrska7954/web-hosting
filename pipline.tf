@@ -75,6 +75,7 @@ resource "aws_iam_role" "example" {
     ]
   })
 }
+# Attach a policy to the CodeBuild role
 
 resource "aws_iam_role_policy" "example" {
   name = "example_codepipeline_policy"
@@ -85,6 +86,8 @@ resource "aws_iam_role_policy" "example" {
     Statement = [
       {
         Action = [
+        "codebuild:StartBuild",
+        "codebuild:BatchGetBuilds",
         "logs:CreateLogGroup",
           "logs:CreateLogStream",
           "logs:PutLogEvents",
