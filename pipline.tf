@@ -51,7 +51,7 @@ resource "aws_codepipeline" "example" {
       input_artifacts  = ["build_output"]
       version          = "1"
       configuration = {
-        BucketName = "your-deployment-s3-bucket-name"
+        BucketName = "var.aws_s3_bucket"
         Extract    = "true"
       }
     }
@@ -85,11 +85,12 @@ resource "aws_iam_role_policy" "example" {
     Statement = [
       {
         Action = [
-          "codebuild:BatchGetBuilds",
-          "codebuild:StartBuild",
-          "s3:*",
-          "iam:PassRole"
-          // Include additional actions as needed by your pipeline
+        "logs:CreateLogGroup",
+          "logs:CreateLogStream",
+          "logs:PutLogEvents",
+          "s3:PutObject",
+          "s3:GetObject",
+          "s3:GetObjectVersion"
         ],
         Resource = "*",
         Effect = "Allow"
